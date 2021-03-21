@@ -1,3 +1,2 @@
-logging
 telegram
 telegram.ext
