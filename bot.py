@@ -16,24 +16,25 @@ logger = logging.getLogger(__name__)
 # Stages
 FIRST, SECOND, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT = range(8)
 # Callback data
-ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,ELEVEN, TWELVE = range(12)
+ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE = range(12)
 
 
 
 def start(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user
     logger.info("User %s started the conversation.", user.first_name)
-    print(update)
+
+    
     keyboard = [
         [InlineKeyboardButton(text='1. Leer un cuento', callback_data=str(ONE)),InlineKeyboardButton(text='2. Ver videos', callback_data=str(TWO))],
         [InlineKeyboardButton(text='Sobre Atenas Education', url='https://atenas.education')],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    # Send message with text and appended InlineKeyboard
-    update.message.reply_text("\U0001F680 Hola "+user.first_name+", qué deseas hacer:", reply_markup=reply_markup)
-    # Tell ConversationHandler that we're in state `FIRST` now
-
+    update.message.reply_text("\U0001F680 Hola "+user.first_name+", qué deseas hacer:", reply_markup=reply_markup), 
+    #update.message.reply_audio('https://ia800806.us.archive.org/23/items/soy-lisa/soy-lisa.mp3')
     return FIRST
+
+
 
 def start_over(update: Update, _: CallbackContext) -> int:
     """Prompt same text & keyboard as `start` does but not as new message"""
@@ -209,7 +210,7 @@ def cat1(update: Update, _: CallbackContext) -> int:
     query = update.callback_query
     query.answer()
     keyboard = [
-        [InlineKeyboardButton("Matilde Hidalgo", callback_data=str(ONE))],
+        [InlineKeyboardButton("Marie Curie ayudó a salvar 1 millón", callback_data=str(ONE))],
         [InlineKeyboardButton("Margaret Hamilton", callback_data=str(TWO))],
         [InlineKeyboardButton("Marie Curie", callback_data=str(THREE))],
         [InlineKeyboardButton("\U0001F519 Volver", callback_data=str(FOUR)),InlineKeyboardButton("\U0001F44B Salir", callback_data=str(FIVE)),]
@@ -225,9 +226,9 @@ def cat2(update: Update, _: CallbackContext) -> int:
     query = update.callback_query
     query.answer()
     keyboard = [
-        [InlineKeyboardButton("Margaret Hamilton", callback_data=str(ONE))],
-        [InlineKeyboardButton("Marie Curie", callback_data=str(TWO))],
-        [InlineKeyboardButton("Matilde Hidalgo", callback_data=str(THREE))],
+        [InlineKeyboardButton("Ada Lovelace, la encantadora de números", callback_data=str(ONE))],
+        [InlineKeyboardButton("Roberta Williams, la reina de los videojuegos", callback_data=str(TWO))],
+        [InlineKeyboardButton("Josephine Cochran, inventora del lavavajillas", callback_data=str(THREE))],
         [InlineKeyboardButton("\U0001F519 Volver", callback_data=str(FOUR)),InlineKeyboardButton("\U0001F44B Salir", callback_data=str(FIVE)),]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -289,8 +290,8 @@ def cat6(update: Update, _: CallbackContext) -> int:
     query = update.callback_query
     query.answer()
     keyboard = [
-        [InlineKeyboardButton("Margaret Hamilton", callback_data=str(ONE))],
-        [InlineKeyboardButton("Marie Curie", callback_data=str(TWO))],
+        [InlineKeyboardButton("Katherine Johnson, la matemática que llevó astronautas", callback_data=str(ONE))],
+        [InlineKeyboardButton("Ada Lovelace, la encantadora de números", callback_data=str(TWO))],
         [InlineKeyboardButton("Matilde Hidalgo", callback_data=str(THREE))],
         [InlineKeyboardButton("\U0001F519 Volver", callback_data=str(FOUR)),InlineKeyboardButton("\U0001F44B Salir", callback_data=str(FIVE)),]
     ]
@@ -312,7 +313,7 @@ def cuento1(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La primera mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Marie Curie ayudó a salvar a un millón de soldados https://telegra.ph/C%C3%B3mo-Marie-Curie-ayud%C3%B3-a-salvar-a-un-mill%C3%B3n-de-soldados-durante-la-Primera-Guerra-Mundial-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return THREE
@@ -348,11 +349,13 @@ def cuento3(update: Update, _: CallbackContext) -> int:
     query.edit_message_text(
         text="La tercera mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
     )
-    # Transfer to conversation state `SECOND`
     return THREE
 
+
 def cuento4(update: Update, _: CallbackContext) -> int:
-    """Show new choice of buttons"""
+    updater = Updater("1718982456:AAHS0vQruzh3TB5U1NOcd-CuYiqbDWm8zmY")
+    dispatcher = updater.dispatcher
+    
     query = update.callback_query
     query.answer()
     keyboard = [
@@ -363,10 +366,26 @@ def cuento4(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La cuarta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Ada Lovelace, la encantadora de número https://telegra.ph/Ada-Lovelace-la-encantadora-de-n%C3%BAmeros-03-23 \n\nEscucha el audio del cuento en: /audio1",reply_markup=reply_markup
     )
-    # Transfer to conversation state `SECOND`
+    #update.message.reply_text("\U0001F680 Hola "+user.first_name+", qué deseas hacer:", reply_markup=reply_markup) 
+    #update.message.reply_audio('https://ia800806.us.archive.org/23/items/soy-lisa/soy-lisa.mp3')
+
     return FOUR
+
+def audio1(update: Update, _: CallbackContext) -> int:
+
+    keyboard = [
+        [
+            InlineKeyboardButton("\U0001F519 Volver", callback_data=str(FOUR)),
+            InlineKeyboardButton("\U0001F44B Salir", callback_data=str(FIVE)),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_audio('https://ia800806.us.archive.org/23/items/soy-lisa/soy-lisa.mp3',caption="Escucha el audio del cuento de Ada Lovelace:",reply_markup=reply_markup)
+
+    return FIRST
+
 
 def cuento5(update: Update, _: CallbackContext) -> int:
     """Show new choice of buttons"""
@@ -380,7 +399,7 @@ def cuento5(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La quinta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Roberta Williams, la reina de los videojuegos de aventuras https://telegra.ph/Roberta-Williams-la-reina-de-los-videojuegos-de-aventuras-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return FOUR
@@ -397,7 +416,7 @@ def cuento6(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La sexta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Josephine Cochran, inventora del lavavajillas https://telegra.ph/Josephine-Cochran-inventora-del-lavavajillas-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return FOUR
@@ -550,7 +569,7 @@ def cuento15(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La sexta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Katherine Johnson, la matemática que llevó astronautas al espacio https://telegra.ph/Katherine-Johnson-la-matem%C3%A1tica-que-llev%C3%B3-astronautas-al-espacio-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return SEVEN
@@ -567,7 +586,7 @@ def cuento16(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La sexta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Katherine Johnson, la matemática que llevó astronautas al espacio https://telegra.ph/Katherine-Johnson-la-matem%C3%A1tica-que-llev%C3%B3-astronautas-al-espacio-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return EIGHT
@@ -584,7 +603,7 @@ def cuento17(update: Update, _: CallbackContext) -> int:
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(
-        text="La sexta mujer que viajó al espacio https://telegra.ph/Ejemplo-de-cuento-03-19",reply_markup=reply_markup
+        text="Ada Lovelace, la encantadora de números https://telegra.ph/Ada-Lovelace-la-encantadora-de-n%C3%BAmeros-03-23",reply_markup=reply_markup
     )
     # Transfer to conversation state `SECOND`
     return EIGHT
@@ -665,11 +684,7 @@ def input_text(update: Update, context: CallbackContext) -> int:
 def main() -> None:
     # Create the Updater and pass it your bot's token.
     updater = Updater("1718982456:AAHS0vQruzh3TB5U1NOcd-CuYiqbDWm8zmY")
-
-    # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
-
- 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
@@ -743,17 +758,17 @@ def main() -> None:
         },
         fallbacks=[CommandHandler('start', start)],
     )
-
-    # Add ConversationHandler to dispatcher that will be used for handling
-    # updates
     dispatcher.add_handler(conv_handler)
 
-    # Start the Bot
-    updater.start_polling()
+    conv_handler1 = ConversationHandler(
+        entry_points=[CommandHandler('audio1', audio1)],
+        states={},
+        fallbacks=[CommandHandler('audio1', audio1)],
+    )
+    dispatcher.add_handler(conv_handler1)
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+
+    updater.start_polling()
     updater.idle()
 
 
